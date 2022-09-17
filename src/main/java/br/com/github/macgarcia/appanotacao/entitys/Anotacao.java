@@ -1,0 +1,74 @@
+package br.com.github.macgarcia.appanotacao.entitys;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ANOTACAO")
+public class Anotacao implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@Column(name = "TITULO")
+	private String titulo;
+	
+	@Column(name = "CONTEUDO")
+	private String conteudo;
+	
+	@ManyToOne
+	@JoinColumn(name = "USUARIO_ID")
+	private Usuario usuario;
+	
+	public Anotacao () {}
+
+	public Anotacao(String titulo, String conteudo, Usuario usuario) {
+		this.titulo = titulo;
+		this.conteudo = conteudo;
+		this.usuario = usuario;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getConteudo() {
+		return conteudo;
+	}
+
+	public void setConteudo(String conteudo) {
+		this.conteudo = conteudo;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+}
