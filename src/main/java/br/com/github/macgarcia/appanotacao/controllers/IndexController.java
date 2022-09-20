@@ -28,7 +28,7 @@ public class IndexController {
 		this.anotacaoController = anotacaoController;
 	}
 
-	@GetMapping(path = "/")
+	@GetMapping(value = "/")
 	public ModelAndView start() {
 		return new ModelAndView(CAMINHO_PAGINA);
 	}
