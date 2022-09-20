@@ -18,7 +18,7 @@ import br.com.github.macgarcia.appanotacao.services.UsuarioService;
 @RequestMapping
 public class IndexController {
 	
-	private static final String CAMINHO_PAGINA = "/login/index";
+	private static final String CAMINHO_PAGINA = "login/index";
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
