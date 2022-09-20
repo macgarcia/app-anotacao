@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.github.macgarcia.appanotacao.entitys.Usuario;
@@ -30,9 +28,9 @@ public class IndexController {
 		this.anotacaoController = anotacaoController;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView start() {
-		return new ModelAndView(CAMINHO_PAGINA);
+	@GetMapping(value = "/")
+	public String start() {
+		return CAMINHO_PAGINA;
 	}
 
 	@PostMapping(value = "/")
@@ -43,7 +41,7 @@ public class IndexController {
 			LOGGER.info("Usuario id: " + usuario.getId() + ", usuário nome: " + usuario.getLogin());
 			return anotacaoController.telaDeAnotacoes(session, this);
 		}
-		return start();
+		return new ModelAndView(CAMINHO_PAGINA);
 	}
 
 }

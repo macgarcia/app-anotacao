@@ -59,7 +59,7 @@ public class AnotacaoController {
 	}
 	
 	@GetMapping(path = "/sair")
-	public ModelAndView sair(final HttpSession session) {
+	public String sair(final HttpSession session) {
 		session.removeAttribute("Usuario");
 		usuarioLogado = null;
 		anotacoes = null;
