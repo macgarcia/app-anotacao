@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    
+	<!--Import materialize.css-->
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/anotacao/novo-editar.css">
+    <title>Anotações</title>
+</head>
+<body>
+    <h1 th:text="${titulo}"></h1>
+    <div class="container">
+        <div id="form">
+        	<form action="/salvar" method="POST">
+        		<input id="id" name="id" type="hidden" th:value="${anotacao.id}">
+	            <div class="row">
+	                <div class="input-field col s12">
+	                    <i class="material-icons prefix">title</i>
+	                    <input id="titulo" name="titulo" type="text" th:value="${anotacao.titulo}" required>
+	                    <label for="titulo">Título</label>
+	                </div>
+	            </div>
+	            <div class="row">
+	                <div class="input-field col s12">
+	                    <i class="material-icons prefix">subject</i>
+	                    <input id="conteudo" name="conteudo" type="text" th:value="${anotacao.conteudo}" required>
+	                    <label for="conteudo">Descrição</label>
+	                </div>
+	            </div>
+	            <div class="row">
+	                <div class="input-field col s12">
+	                    <button type="submit" id="acao" class="btn">Salvar</button>
+	                </div>
+	            </div>
+	    	</form>
+        </div>
+    </div>
+</body>
+</html>

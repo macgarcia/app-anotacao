@@ -1,0 +1,23 @@
+body {
+    background-color: whitesmoke;
+}
+
+h1 {
+    background-color: yellow;
+    margin: 0px;
+    padding: 5px;
+    color: black;
+    font-size: 30px;
+}
+
+#form {
+    margin: 10px auto;
+    width: 600px;
+    height: 300px;
+}
+
+#acao{
+    float: right;
+    background-color: blue;
+    font-weight: bolder;
+}

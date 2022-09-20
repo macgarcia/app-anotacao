@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+	<!--Import materialize.css-->
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/anotacao/anotacao.css">
+    <title>Anotações</title>
+</head>
+<body>
+    <h1><i class="material-icons prefix">attach_file</i> Minhas anotações</h1>
+    <br>
+    <div class="container">
+    
+    	<form action="/pesquisa" method="POST">
+	        <div id="form">
+	            <div class="input-field col s12">
+	                <i class="material-icons prefix">search</i>
+	                <input id="pesquisa" name="pesquisa" type="text">
+	                <label for="pesquisa">Pesquisar por titulo</label>
+	            </div>
+	        </div>
+    	</form>
+    	
+    	<form action="/sair" method="GET">
+    		<button id="sair" type="submit">Sair</button>
+    	</form>
+    	
+    	<table>
+    		<thead>
+    			<tr>
+    				<th>
+    					<a href="/novo-editar?id=0">
+    						<i class="small material-icons" title="Adicionar" style="color: green; cursor: pointer;">add_circle</i>
+    					</a>
+    				</th>
+    				<th>Titulo</th>
+    				<th>Conteudo</th>
+    				<th>Remover</th>
+    			</tr>
+    		</thead>
+    		
+    		<tbody>
+    			<tr th:each="a : ${anotacoes}">
+    				<th>
+    					<a th:href="@{/novo-editar(id=${a.id})}">
+    						<i class="small material-icons" title="Adicionar" style="color: blue; cursor: pointer;">build</i>
+    					</a>
+    				</th>
+    				<th th:text="${a.titulo}"> </th>
+    				<th th:text="${a.conteudo}"> </th>
+    				<th>
+    					<a th:href="@{/apagar(id=${a.id})}">
+    						<i class="small material-icons" title="Remover" style="color: red; cursor: pointer;">delete_forever</i>
+    					</a>
+    				</th>
+    			</tr>
+    		</tbody>
+    	</table>
+    	
+
+        
+    </div>
+    <br>
+</body>
+</html>
