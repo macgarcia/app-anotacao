@@ -20,8 +20,8 @@ import br.com.github.macgarcia.appanotacao.repositorys.AnotacaoRepository;
 @Controller
 public class AnotacaoController {
 	
-	private static final String CAMINHO_PAGINA_ANOTACAO = "/anotacao/anotacao-index";
-	private static final String CAMINHO_PAGINA_NOVO_EDITAR = "/anotacao/novo-editar-anotacao.html";
+	private static final String CAMINHO_PAGINA_ANOTACAO = "anotacao/anotacao-index";
+	private static final String CAMINHO_PAGINA_NOVO_EDITAR = "anotacao/novo-editar-anotacao.html";
 	
 	@Autowired
 	private AnotacaoRepository repository;
@@ -59,7 +59,7 @@ public class AnotacaoController {
 	}
 	
 	@GetMapping(path = "/sair")
-	public String sair(final HttpSession session) {
+	public ModelAndView sair(final HttpSession session) {
 		session.removeAttribute("Usuario");
 		usuarioLogado = null;
 		anotacoes = null;
