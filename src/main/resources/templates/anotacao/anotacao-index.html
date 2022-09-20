@@ -30,10 +30,18 @@
 	        </div>
     	</form>
     	
+    	<form action="/sair" method="GET">
+    		<button id="sair" type="submit">Sair</button>
+    	</form>
+    	
     	<table>
     		<thead>
     			<tr>
-    				<th><i class="small material-icons" title="Adicionar" style="color: green; cursor: pointer;">add_circle</i></th>
+    				<th>
+    					<a href="/novo-editar?id=0">
+    						<i class="small material-icons" title="Adicionar" style="color: green; cursor: pointer;">add_circle</i>
+    					</a>
+    				</th>
     				<th>Titulo</th>
     				<th>Conteudo</th>
     				<th>Remover</th>
@@ -42,13 +50,23 @@
     		
     		<tbody>
     			<tr th:each="a : ${anotacoes}">
-    				<th><i class="small material-icons" title="Adicionar" style="color: blue; cursor: pointer;">build</i></th>
+    				<th>
+    					<a th:href="@{/novo-editar(id=${a.id})}">
+    						<i class="small material-icons" title="Adicionar" style="color: blue; cursor: pointer;">build</i>
+    					</a>
+    				</th>
     				<th th:text="${a.titulo}"> </th>
     				<th th:text="${a.conteudo}"> </th>
-    				<th><i class="small material-icons" title="Remover" style="color: red; cursor: pointer;">delete_forever</i></th>
+    				<th>
+    					<a th:href="@{/apagar(id=${a.id})}">
+    						<i class="small material-icons" title="Remover" style="color: red; cursor: pointer;">delete_forever</i>
+    					</a>
+    				</th>
     			</tr>
     		</tbody>
     	</table>
+    	
+
         
     </div>
     <br>

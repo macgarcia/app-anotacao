@@ -15,11 +15,13 @@ import br.com.github.macgarcia.appanotacao.services.UsuarioService;
 
 @Controller
 public class IndexController {
+	
+	private static final String CAMINHO_PAGINA = "/login/index";
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
-	UsuarioService service;
-	AnotacaoController anotacaoController;
+	private UsuarioService service;
+	private AnotacaoController anotacaoController;
 
 	public IndexController(UsuarioService service, AnotacaoController anotacaoController) {
 		this.service = service;
@@ -28,7 +30,7 @@ public class IndexController {
 
 	@GetMapping(path = "/")
 	public ModelAndView start() {
-		return new ModelAndView("/login/index");
+		return new ModelAndView(CAMINHO_PAGINA);
 	}
 
 	@PostMapping(path = "/")
@@ -37,7 +39,7 @@ public class IndexController {
 		if (usuario != null && usuario.getId() != null) {
 			session.setAttribute("Usuario", usuario);
 			LOGGER.info("Usuario id: " + usuario.getId() + ", usuário nome: " + usuario.getLogin());
-			return anotacaoController.telaDeAnotacoes(session);
+			return anotacaoController.telaDeAnotacoes(session, this);
 		}
 		return start();
 	}
