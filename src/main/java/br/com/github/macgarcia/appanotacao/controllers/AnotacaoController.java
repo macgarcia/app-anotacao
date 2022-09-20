@@ -89,9 +89,6 @@ public class AnotacaoController {
 	@PostMapping(path = "/salvar")
 	@Transactional
 	public ModelAndView atualizar(final HttpSession session, final Anotacao anotacao) {
-		if (anotacao.getTitulo().isEmpty() || anotacao.getConteudo().isEmpty()) {
-			
-		}
 		anotacao.setUsuario(usuarioLogado);
 		repository.saveAndFlush(anotacao);
 		return telaDeAnotacoes(session, null);
