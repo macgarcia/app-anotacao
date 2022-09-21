@@ -15,7 +15,6 @@ import br.com.github.macgarcia.appanotacao.pojos.LoginVO;
 import br.com.github.macgarcia.appanotacao.services.UsuarioService;
 
 @Controller
-@RequestMapping
 public class IndexController {
 	
 	private static final String CAMINHO_PAGINA = "login/index";
@@ -35,7 +34,7 @@ public class IndexController {
 		return new ModelAndView(CAMINHO_PAGINA);
 	}
 
-	@PostMapping(value = "/")
+	@PostMapping(value = "/logar")
 	public ModelAndView logarNoSistema(final HttpSession session, LoginVO vo) {
 		final Usuario usuario = service.verificaUsuario(vo);
 		if (usuario != null && usuario.getId() != null) {
