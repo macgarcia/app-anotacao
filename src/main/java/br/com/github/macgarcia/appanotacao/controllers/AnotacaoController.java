@@ -165,8 +165,8 @@ public class AnotacaoController {
 	}
 	
 	private boolean verificarUsoDoSistema(final HttpSession session) {
-		final Usuario usuario = (Usuario) session.getAttribute("Usuario");
-		if (usuario == null) {
+		this.usuarioLogado = (Usuario) session.getAttribute("Usuario");
+		if (usuarioLogado == null) {
 			return false;
 		}
 		return true;
