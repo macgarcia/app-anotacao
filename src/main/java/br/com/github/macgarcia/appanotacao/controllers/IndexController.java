@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.github.macgarcia.appanotacao.entitys.Usuario;
@@ -34,7 +33,7 @@ public class IndexController {
 		return new ModelAndView(CAMINHO_PAGINA);
 	}
 
-	@PostMapping(value = "/logar")
+	@PostMapping(value = "/")
 	public ModelAndView logarNoSistema(final HttpSession session, LoginVO vo) {
 		final Usuario usuario = service.verificaUsuario(vo);
 		if (usuario != null && usuario.getId() != null) {
