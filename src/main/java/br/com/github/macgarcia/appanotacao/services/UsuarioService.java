@@ -13,27 +13,25 @@ import br.com.github.macgarcia.appanotacao.repositorys.UsuarioRepository;
 
 @Service
 public class UsuarioService {
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	public Usuario verificaUsuario(final LoginVO vo) {
 		if (vo.getLogin().isEmpty() || vo.getSenha().isEmpty()) {
 			return new Usuario();
-		}
-		return usuarioRepository.findByLoginAndSenha(vo.getLogin(),
-				this.encodeSenhaComMd5(vo.getSenha()));
+		}		
+		return usuarioRepository.findByLoginAndSenha(vo.getLogin(), this.encodeSenhaComMd5(vo.getSenha()));
 	}
-	
+
 	private String encodeSenhaComMd5(final String senha) {
-		String s="Texto de Exemplo";
-	       MessageDigest m = null;
+		MessageDigest m = null;
 		try {
 			m = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-	       m.update(s.getBytes(),0,s.length());
-	       return new BigInteger(1,m.digest()).toString(16).toLowerCase();
+		m.update(senha.getBytes(), 0, senha.length());
+		return new BigInteger(1, m.digest()).toString(16).toLowerCase();
 	}
 }

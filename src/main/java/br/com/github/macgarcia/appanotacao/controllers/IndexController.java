@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.github.macgarcia.appanotacao.entitys.Usuario;
@@ -15,7 +14,6 @@ import br.com.github.macgarcia.appanotacao.pojos.LoginVO;
 import br.com.github.macgarcia.appanotacao.services.UsuarioService;
 
 @Controller
-@RequestMapping
 public class IndexController {
 	
 	private static final String CAMINHO_PAGINA = "login/index";

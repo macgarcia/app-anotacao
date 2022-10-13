@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,6 +20,8 @@ import br.com.github.macgarcia.appanotacao.repositorys.AnotacaoRepository;
 
 @Controller
 public class AnotacaoController {
+	
+	private static final String CAMINHO_INICIO_APP = "login/index";
 	
 	private static final String CAMINHO_PAGINA_ANOTACAO = "anotacao/anotacao-index";
 	private static final String CAMINHO_PAGINA_NOVO_EDITAR = "anotacao/novo-editar-anotacao.html";
@@ -34,11 +37,16 @@ public class AnotacaoController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(AnotacaoController.class);
 	
+	@GetMapping(path = "/anotacoes")
 	public ModelAndView telaDeAnotacoes(final HttpSession session, final IndexController indexController) {
 		
 		setIndexController(indexController);
 		
-		usuarioLogado = (Usuario) session.getAttribute("Usuario");
+		final boolean podeUsarSistema = verificarUsoDoSistema(session);
+		
+		if (!podeUsarSistema) {
+			return new ModelAndView(CAMINHO_INICIO_APP);
+		}
 		
 		if (!executouPesquisa) {
 			alimentarListaAnotacoes("");
@@ -51,25 +59,32 @@ public class AnotacaoController {
 		return model;
 	}
 	
+	
 	@PostMapping(path = "/pesquisa")
-	public ModelAndView executarPesquisa(final HttpSession session, final String pesquisa) {
+	public String executarPesquisa(final HttpSession session, final String pesquisa) {
+		
+		final boolean podeUsarSistema = verificarUsoDoSistema(session);
+		if (!podeUsarSistema) {
+			return "redirect:/";
+		}
+		
 		this.executouPesquisa = true;
 		alimentarListaAnotacoes(pesquisa);
-		return telaDeAnotacoes(session, null);
+		return "redirect:/anotacoes";
 	}
 	
 	@GetMapping(path = "/sair")
-	public ModelAndView sair(final HttpSession session) {
+	public String sair(final HttpSession session) {
 		session.removeAttribute("Usuario");
 		usuarioLogado = null;
 		anotacoes = null;
 		executouPesquisa = false;
-		return indexController.start();
+		return "redirect:/";
 	}
 	// ----------------------------------------------------------------------------
 	
-	@GetMapping(path = "/novo-editar")
-	public ModelAndView novoEditar(final HttpSession session, final Long id) {
+	@GetMapping(path = "/add/{id}")
+	public ModelAndView add(@PathVariable("id") final Long id) {		
 		final ModelAndView model = new ModelAndView(CAMINHO_PAGINA_NOVO_EDITAR);
 		String titulo = null;
 		if (id != 0) {
@@ -83,22 +98,47 @@ public class AnotacaoController {
 			model.addObject("anotacao", new Anotacao());
 		}
 		model.addObject("titulo", titulo);
+		this.executouPesquisa = false;
 		return model;
+	}
+	
+	@GetMapping(path = "/novo-editar")
+	public String novoEditar(final HttpSession session, final Long id) {
+		final boolean podeUsarSistema = verificarUsoDoSistema(session);
+		if (!podeUsarSistema) {
+			return "redirect:/";
+		}
+		return "redirect:/add/"+id;
 	}
 	
 	@PostMapping(path = "/salvar")
 	@Transactional
-	public ModelAndView atualizar(final HttpSession session, final Anotacao anotacao) {
+	public String atualizar(final HttpSession session, final Anotacao anotacao) {
+		
+		final boolean podeUsarSistema = verificarUsoDoSistema(session);
+		
+		if (!podeUsarSistema) {
+			return "redirect:/";
+		}
 		anotacao.setUsuario(usuarioLogado);
 		repository.saveAndFlush(anotacao);
-		return telaDeAnotacoes(session, null);
+		this.executouPesquisa = false;
+		return "redirect:/anotacoes";
 	}
 	
 	@GetMapping(path = "/apagar")
 	@Transactional
-	public ModelAndView apagar(final HttpSession session, final Long id) {
+	public String apagar(final HttpSession session, final Long id) {
+		
+		final boolean podeUsarSistema = verificarUsoDoSistema(session);
+		
+		if (!podeUsarSistema) {
+			return "redirect:/"; 
+		}
+		
 		repository.deleteById(id);
-		return telaDeAnotacoes(session, null);
+		this.executouPesquisa = false;
+		return "redirect:/anotacoes";
 	}
 	
 	//--------------------
@@ -130,6 +170,14 @@ public class AnotacaoController {
 			count++;
 		}
 		return aEncontrada;
+	}
+	
+	private boolean verificarUsoDoSistema(final HttpSession session) {
+		this.usuarioLogado = (Usuario) session.getAttribute("Usuario");
+		if (usuarioLogado == null) {
+			return false;
+		}
+		return true;
 	}
 	
 }
