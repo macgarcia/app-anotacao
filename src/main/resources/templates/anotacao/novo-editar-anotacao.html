@@ -37,6 +37,14 @@
 	            </div>
 	            <div class="row">
 	                <div class="input-field col s12">
+						<label>
+					    	<input id="favorita" name="favorita" type="checkbox" th:checked="${anotacao.favorita == 1}" th:value="1" />
+					    	<span>Favorita</span>
+					  	</label>
+	                </div>
+	            </div>
+	            <div class="row">
+	                <div class="input-field col s12">
 	                    <button type="submit" id="acao" class="btn">Salvar</button>
 	                </div>
 	            </div>

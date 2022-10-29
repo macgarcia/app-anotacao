@@ -29,6 +29,9 @@ public class Anotacao implements Serializable{
 	@Column(name = "CONTEUDO")
 	private String conteudo;
 	
+	@Column(name = "favorita")
+	private int favorita = 0;
+	
 	@ManyToOne
 	@JoinColumn(name = "USUARIO_ID")
 	private Usuario usuario;
@@ -73,4 +76,12 @@ public class Anotacao implements Serializable{
 		this.usuario = usuario;
 	}
 
+	public int getFavorita() {
+		return favorita;
+	}
+
+	public void setFavorita(int favorita) {
+		this.favorita = favorita;
+	}
+	
 }

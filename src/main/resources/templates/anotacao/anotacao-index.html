@@ -17,6 +17,14 @@
 </head>
 <body>
     <h1><i class="material-icons prefix">attach_file</i> Minhas anotações</h1>
+    
+    <div id="menu_bar" class="container">
+    	<br>
+    	<button id="todas" onclick="location.href='/todas'" title="Listar todas">Todas</button>
+    	<button id="favoritas" onclick="location.href='/favoritas'" title="Listar favoritas">Favoritas</button>
+    	<button id="sair" onclick="location.href='/sair'" title="Sair do sistema">Sair</button>
+    </div>
+    
     <br>
     <div class="container">
     
@@ -30,9 +38,6 @@
 	        </div>
     	</form>
     	
-    	<a id="sair" href="/sair">Sair</a>
-    	
-    	
     	<table>
     		<thead>
     			<tr>
@@ -43,6 +48,7 @@
     				</th>
     				<th>Titulo</th>
     				<th>Conteudo</th>
+    				<th>Favoritas</th>
     				<th>Remover</th>
     			</tr>
     		</thead>
@@ -57,6 +63,11 @@
     				<th th:text="${a.titulo}"> </th>
     				<th th:text="${a.conteudo}"> </th>
     				<th>
+    					<span th:if="${a.favorita == 1}">
+    						<i class="small material-icons" title="Adicionar" style="color: green;">check</i>
+    					</span>
+    				</th>
+    				<th>
     					<a th:href="@{/apagar(id=${a.id})}">
     						<i class="small material-icons" title="Remover" style="color: red; cursor: pointer;">delete_forever</i>
     					</a>
@@ -64,9 +75,6 @@
     			</tr>
     		</tbody>
     	</table>
-    	
-
-        
     </div>
     <br>
 </body>
