@@ -23,14 +23,43 @@ h1 {
     height: 50px;
 }
 
-#sair{
-    float: right;
-    background-color: blue;
+#menu_bar {
+    height: 50px;
+}
+
+#todas {
+	background-color: coral;
     font-weight: bolder;
     color: white;
-    border: none;
     height: 30px;
+    width: 150px;
+    border: none;
     cursor: pointer;
+}
+
+#favoritas {
+	background-color: teal;
+    font-weight: bolder;
+    color: white;
+    height: 30px;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+}
+
+#sair{
+	float: right;
+    background-color: red;
+    font-weight: bolder;
+    color: white;
+    height: 30px;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+}
+
+table tr td {
+	text-align: center;
 }
 
 

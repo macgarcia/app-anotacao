@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.com.github.macgarcia.appanotacao.entitys.Anotacao;
 import br.com.github.macgarcia.appanotacao.entitys.Usuario;
+import br.com.github.macgarcia.appanotacao.enums.Situacao;
 import br.com.github.macgarcia.appanotacao.repositorys.AnotacaoRepository;
 
 @Controller
@@ -34,6 +35,7 @@ public class AnotacaoController {
 	private List<Anotacao> anotacoes;
 	private Usuario usuarioLogado;
 	private boolean executouPesquisa;
+	private boolean executouFavorita;
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(AnotacaoController.class);
 	
@@ -48,8 +50,8 @@ public class AnotacaoController {
 			return new ModelAndView(CAMINHO_INICIO_APP);
 		}
 		
-		if (!executouPesquisa) {
-			alimentarListaAnotacoes("");
+		if (!executouPesquisa && !executouFavorita) {
+			alimentarListaAnotacoes(Situacao.NORMAL, "");
 		}
 		
 		final ModelAndView model = new ModelAndView(CAMINHO_PAGINA_ANOTACAO);
@@ -69,7 +71,7 @@ public class AnotacaoController {
 		}
 		
 		this.executouPesquisa = true;
-		alimentarListaAnotacoes(pesquisa);
+		alimentarListaAnotacoes(Situacao.PESQUISA, pesquisa);
 		return "redirect:/anotacoes";
 	}
 	
@@ -79,7 +81,20 @@ public class AnotacaoController {
 		usuarioLogado = null;
 		anotacoes = null;
 		executouPesquisa = false;
+		executouFavorita = false;
 		return "redirect:/";
+	}
+	
+	@GetMapping(path = "todas")
+	public String todasAnotacoes(final HttpSession session) {
+		return this.executarPesquisa(session, "");
+	}
+	
+	@GetMapping(path = "/favoritas")
+	public String favoritas(final HttpSession session) {
+		this.executouFavorita = true;
+		alimentarListaAnotacoes(Situacao.FAVORITA, "");
+		return "redirect:/anotacoes";
 	}
 	// ----------------------------------------------------------------------------
 	
@@ -123,6 +138,7 @@ public class AnotacaoController {
 		anotacao.setUsuario(usuarioLogado);
 		repository.saveAndFlush(anotacao);
 		this.executouPesquisa = false;
+		this.executouFavorita = false;
 		return "redirect:/anotacoes";
 	}
 	
@@ -138,15 +154,25 @@ public class AnotacaoController {
 		
 		repository.deleteById(id);
 		this.executouPesquisa = false;
+		this.executouFavorita = false;
 		return "redirect:/anotacoes";
 	}
 	
 	//--------------------
-	private void alimentarListaAnotacoes(final String pesquisa) {
-		if (pesquisa.isBlank() || pesquisa.isEmpty()) {
-			anotacoes = repository.findAnotacoesDoUsuarioPorId(usuarioLogado.getId());
-		} else {
-			anotacoes = repository.findByTitulo(pesquisa);
+	private void alimentarListaAnotacoes(final Situacao situacao, final String pesquisa) {
+		
+		switch(situacao) {
+			case NORMAL:
+				anotacoes = repository.findAnotacoesDoUsuarioPorId(usuarioLogado.getId());
+				break;
+			case PESQUISA:
+				anotacoes = repository.findByTitulo(pesquisa);
+				break;
+			case FAVORITA:
+				anotacoes = repository.findByFavorita();
+				break;
+			default:
+				throw new IllegalArgumentException("Erro interno na pesquisa");
 		}
 	}
 	
