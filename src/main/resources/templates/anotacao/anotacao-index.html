@@ -38,40 +38,40 @@
 	        </div>
     	</form>
     	
-    	<table>
+    	<table class="striped">
     		<thead>
-    			<tr>
-    				<th>
+    			<tr style="font-weight: bold;">
+    				<td>
     					<a href="/novo-editar?id=0">
     						<i class="small material-icons" title="Adicionar" style="color: green; cursor: pointer;">add_circle</i>
     					</a>
-    				</th>
-    				<th>Titulo</th>
-    				<th>Conteudo</th>
-    				<th>Favoritas</th>
-    				<th>Remover</th>
+    				</td>
+    				<td>Titulo</td>
+    				<td>Conteudo</td>
+    				<td>Favoritas</ttd>
+    				<td>Remover</ttd>
     			</tr>
     		</thead>
     		
     		<tbody>
     			<tr th:each="a : ${anotacoes}">
-    				<th>
+    				<td>
     					<a th:href="@{/novo-editar(id=${a.id})}">
-    						<i class="small material-icons" title="Adicionar" style="color: blue; cursor: pointer;">build</i>
+    						<i class="small material-icons" title="Editar" style="color: blue; cursor: pointer;">build</i>
     					</a>
-    				</th>
-    				<th th:text="${a.titulo}"> </th>
-    				<th th:text="${a.conteudo}"> </th>
-    				<th>
+    				</td>
+    				<td th:text="${a.titulo}"> </td>
+    				<td th:text="${a.conteudo}"> </td>
+    				<td>
     					<span th:if="${a.favorita == 1}">
-    						<i class="small material-icons" title="Adicionar" style="color: green;">check</i>
+    						<i class="small material-icons" style="color: green;">check</i>
     					</span>
-    				</th>
-    				<th>
+    				</td>
+    				<td
     					<a th:href="@{/apagar(id=${a.id})}">
     						<i class="small material-icons" title="Remover" style="color: red; cursor: pointer;">delete_forever</i>
     					</a>
-    				</th>
+    				</td>
     			</tr>
     		</tbody>
     	</table>
