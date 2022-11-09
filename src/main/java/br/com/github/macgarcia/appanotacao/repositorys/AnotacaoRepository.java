@@ -20,5 +20,8 @@ public interface AnotacaoRepository extends JpaRepository<Anotacao, Long> {
 
 	@Query("select a from Anotacao a where a.favorita = 1")
 	List<Anotacao> findByFavorita();
+	
+	@Query("select a from Anotacao a where a.categoria.id = :id")
+	List<Anotacao> findByCategoiria(@Param("id") final Long id);
 
 }

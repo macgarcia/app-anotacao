@@ -29,33 +29,30 @@ h1 {
 
 #todas {
 	background-color: coral;
-    font-weight: bolder;
     color: white;
-    height: 30px;
-    width: 150px;
-    border: none;
-    cursor: pointer;
 }
 
 #favoritas {
 	background-color: teal;
-    font-weight: bolder;
     color: white;
-    height: 30px;
-    width: 150px;
-    border: none;
-    cursor: pointer;
 }
 
 #sair{
 	float: right;
     background-color: red;
-    font-weight: bolder;
     color: white;
-    height: 30px;
+}
+
+.btn {
+	font-weight: bolder;
+	height: 40px;
     width: 150px;
     border: none;
     cursor: pointer;
+}
+
+#categ {
+	width: 100px;
 }
 
 table tr td {

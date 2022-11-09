@@ -15,30 +15,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.github.macgarcia.appanotacao.entitys.Anotacao;
+import br.com.github.macgarcia.appanotacao.entitys.Categoria;
 import br.com.github.macgarcia.appanotacao.entitys.Usuario;
 import br.com.github.macgarcia.appanotacao.enums.Situacao;
 import br.com.github.macgarcia.appanotacao.repositorys.AnotacaoRepository;
+import br.com.github.macgarcia.appanotacao.repositorys.CategoriaRepository;
 
 @Controller
 public class AnotacaoController {
 	
-	private static final String CAMINHO_INICIO_APP = "login/index";
+	private final static Logger LOGGER = LoggerFactory.getLogger(AnotacaoController.class);
 	
+	private static final String CAMINHO_INICIO_APP = "login/index";
 	private static final String CAMINHO_PAGINA_ANOTACAO = "anotacao/anotacao-index";
 	private static final String CAMINHO_PAGINA_NOVO_EDITAR = "anotacao/novo-editar-anotacao.html";
 	
-	@Autowired
-	private AnotacaoRepository repository;
+	private final AnotacaoRepository repository;
+	private final CategoriaRepository categRepository;
 	
 	private IndexController indexController;
 	
 	private List<Anotacao> anotacoes;
+	private List<Categoria> categorias;
 	private Usuario usuarioLogado;
 	private boolean executouPesquisa;
 	private boolean executouFavorita;
+	private boolean executouCategorias;
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(AnotacaoController.class);
-	
+	@Autowired
+	public AnotacaoController(AnotacaoRepository repository, CategoriaRepository categRepository) {
+		this.repository = repository;
+		this.categRepository = categRepository;
+	}
+
 	@GetMapping(path = "/anotacoes")
 	public ModelAndView telaDeAnotacoes(final HttpSession session, final IndexController indexController) {
 		
@@ -50,12 +59,15 @@ public class AnotacaoController {
 			return new ModelAndView(CAMINHO_INICIO_APP);
 		}
 		
-		if (!executouPesquisa && !executouFavorita) {
+		if (!executouPesquisa && !executouFavorita && !executouCategorias) {
 			alimentarListaAnotacoes(Situacao.NORMAL, "");
 		}
 		
+		categorias = categRepository.findAll();
+		
 		final ModelAndView model = new ModelAndView(CAMINHO_PAGINA_ANOTACAO);
 		model.addObject("anotacoes", anotacoes);
+		model.addObject("categorias", categorias);
 		
 		LOGGER.info("Iniciando a tela de anotações");
 		return model;
@@ -82,6 +94,7 @@ public class AnotacaoController {
 		anotacoes = null;
 		executouPesquisa = false;
 		executouFavorita = false;
+		executouCategorias = false;
 		return "redirect:/";
 	}
 	
@@ -94,6 +107,13 @@ public class AnotacaoController {
 	public String favoritas(final HttpSession session) {
 		this.executouFavorita = true;
 		alimentarListaAnotacoes(Situacao.FAVORITA, "");
+		return "redirect:/anotacoes";
+	}
+	
+	@GetMapping(path = "/categoriaSelecionada/{idCategoria}")
+	public String utilizarCategoriaSelecionada(@PathVariable("idCategoria") final Long idCategoria) {
+		anotacoes = repository.findByCategoiria(idCategoria);
+		executouCategorias = true;
 		return "redirect:/anotacoes";
 	}
 	// ----------------------------------------------------------------------------
@@ -139,6 +159,7 @@ public class AnotacaoController {
 		repository.saveAndFlush(anotacao);
 		this.executouPesquisa = false;
 		this.executouFavorita = false;
+		executouCategorias = false;
 		return "redirect:/anotacoes";
 	}
 	
@@ -155,6 +176,7 @@ public class AnotacaoController {
 		repository.deleteById(id);
 		this.executouPesquisa = false;
 		this.executouFavorita = false;
+		executouCategorias = false;
 		return "redirect:/anotacoes";
 	}
 	

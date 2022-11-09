@@ -7,8 +7,7 @@
 	<!--Import materialize.css-->
 	<!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
@@ -20,12 +19,14 @@
     
     <div id="menu_bar" class="container">
     	<br>
-    	<button id="todas" onclick="location.href='/todas'" title="Listar todas">Todas</button>
-    	<button id="favoritas" onclick="location.href='/favoritas'" title="Listar favoritas">Favoritas</button>
-    	<button id="sair" onclick="location.href='/sair'" title="Sair do sistema">Sair</button>
+    	<button id="todas" class="btn" onclick="location.href='/todas'" title="Listar todas">Todas</button>
+    	<button id="favoritas" class="btn" onclick="location.href='/favoritas'" title="Listar favoritas">Favoritas</button>
+    	<button id="categoria" class="btn" onclick="javascript:novaCategoria()" title="Adicionar categoria">Categoria</button>
+    	<button id="sair" class="btn" onclick="location.href='/sair'" title="Sair do sistema">Sair</button>
     </div>
-    
     <br>
+    <br>
+
     <div class="container">
     
     	<form action="/pesquisa" method="POST">
@@ -38,6 +39,19 @@
 	        </div>
     	</form>
     	
+    	<br>
+    	<br>
+    	
+		<div class="input-field col s12, container">
+			<select id="categ" onchange="mudarCategoria()">
+				<option value="" disabled selected>Selecione a categoria</option>
+				<option th:each="categoria :${categorias}" th:value="${categoria.id}" th:text="${categoria.nomeCategoria}"></option>
+			</select>
+			<label>Categorias</label>
+		</div>
+		
+    	<br>
+    	
     	<table class="striped">
     		<thead>
     			<tr style="font-weight: bold;">
@@ -48,8 +62,9 @@
     				</td>
     				<td>Titulo</td>
     				<td>Conteudo</td>
-    				<td>Favoritas</ttd>
-    				<td>Remover</ttd>
+    				<td>Favoritas</td>
+    				<td>Categoria</td>
+    				<td>Remover</td>
     			</tr>
     		</thead>
     		
@@ -60,11 +75,16 @@
     						<i class="small material-icons" title="Editar" style="color: blue; cursor: pointer;">build</i>
     					</a>
     				</td>
-    				<td th:text="${a.titulo}"> </td>
-    				<td th:text="${a.conteudo}"> </td>
+    				<td th:text="${a.titulo}"></td>
+    				<td th:text="${a.conteudo}"></td>
     				<td>
     					<span th:if="${a.favorita == 1}">
     						<i class="small material-icons" style="color: green;">check</i>
+    					</span>
+    				</td>
+    				<td>
+    					<span th:if="${a.categoria != null}">
+    						<span th:text="${a.categoria.nomeCategoria}"></span>
     					</span>
     				</td>
     				<td
@@ -77,5 +97,8 @@
     	</table>
     </div>
     <br>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/nova_categoria.js"></script>
 </body>
 </html>

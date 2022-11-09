@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,12 +30,16 @@ public class Anotacao implements Serializable{
 	@Column(name = "CONTEUDO")
 	private String conteudo;
 	
-	@Column(name = "favorita")
+	@Column(name = "FAVORITA")
 	private int favorita = 0;
 	
 	@ManyToOne
 	@JoinColumn(name = "USUARIO_ID")
 	private Usuario usuario;
+	
+	@OneToOne
+	@JoinColumn(name = "CATEGORIA_ID")
+	private Categoria categoria;	
 	
 	public Anotacao () {}
 
@@ -82,6 +87,14 @@ public class Anotacao implements Serializable{
 
 	public void setFavorita(int favorita) {
 		this.favorita = favorita;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 	
 }
