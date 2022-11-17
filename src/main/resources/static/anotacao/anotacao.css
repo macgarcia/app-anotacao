@@ -37,6 +37,11 @@ h1 {
     color: white;
 }
 
+#categoria {
+	background-color: brown;
+    color: white;
+}
+
 #sair{
 	float: right;
     background-color: red;
@@ -49,10 +54,6 @@ h1 {
     width: 150px;
     border: none;
     cursor: pointer;
-}
-
-#categ {
-	width: 100px;
 }
 
 table tr td {

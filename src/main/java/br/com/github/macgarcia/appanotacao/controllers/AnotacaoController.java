@@ -163,9 +163,9 @@ public class AnotacaoController {
 		return "redirect:/anotacoes";
 	}
 	
-	@GetMapping(path = "/apagar")
+	@GetMapping(path = "/apagar/{id}")
 	@Transactional
-	public String apagar(final HttpSession session, final Long id) {
+	public String apagar(final HttpSession session, @PathVariable("id") final Long id) {
 		
 		final boolean podeUsarSistema = verificarUsoDoSistema(session);
 		

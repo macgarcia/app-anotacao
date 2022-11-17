@@ -88,7 +88,7 @@
     					</span>
     				</td>
     				<td
-    					<a th:href="@{/apagar(id=${a.id})}">
+    					<a th:onclick="'javascript:removerAnotacao(' + ${a.id} + ')'">
     						<i class="small material-icons" title="Remover" style="color: red; cursor: pointer;">delete_forever</i>
     					</a>
     				</td>
@@ -99,6 +99,6 @@
     <br>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="js/nova_categoria.js"></script>
+    <script src="js/anotacao_index.js"></script>
 </body>
 </html>

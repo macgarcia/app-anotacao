@@ -16,3 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
 });
+
+function removerAnotacao(id) {
+	
+	if (confirm("Deseja realmente apagar a anotação?")) {
+		window.location.replace("/apagar/" + id);
+	}
+}
